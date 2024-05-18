@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:padding="4dp">
+
+    <LinearLayout
+        android:id="@+id/lo_respond"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
+        android:background="@drawable/type_message_outline"
+        android:backgroundTint="#0000FF"
+        android:padding="6dp">
+
+        <TextView
+            android:id="@+id/tv_respond"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:textColor="#FFFFFF"
+            android:textIsSelectable="true"
+            android:textSize="25sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lo_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="80dp"
+        android:background="@drawable/type_message_outline"
+        android:backgroundTint="#008712"
+        android:padding="6dp">
+
+        <TextView
+            android:id="@+id/tv_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:textColor="#FFFFFF"
+            android:textIsSelectable="true"
+            android:textSize="25sp" />
+    </LinearLayout>
+</RelativeLayout>
