@@ -82,8 +82,12 @@ public class MainActivity extends AppCompatActivity {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("model", "gpt-3.5-turbo");
-            jsonObject.put("prompt", question);
-            jsonObject.put("max_tokens", 4000);
+            JSONArray messagesArray = new JSONArray();
+            JSONObject messageObject = new JSONObject();
+            messageObject.put("role", "user");
+            messageObject.put("content", question);
+            messagesArray.put(messageObject);
+            jsonObject.put("messages", messagesArray);
             jsonObject.put("temperature", 1);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -103,24 +107,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 try {
-                    JSONObject _jsonObject = null;
                     if (!response.isSuccessful()) {
                         AddRespond("API request failed with code: " + response.code());
                         return;
                     }
-                    try {
-                        String respondBody = response.body().string();
-                        _jsonObject = new JSONObject(respondBody);
-                        JSONArray jsonArray = _jsonObject.getJSONArray("choices");
-                        String result = jsonArray.getJSONObject(0).getString("text");
-                        AddRespond(result.trim());
+                    try (ResponseBody responseBody = response.body()) {
+                        if (responseBody != null) {
+                            String responseString = responseBody.string();
+                            JSONObject jsonResponse = new JSONObject(responseString);
+                            JSONArray choicesArray = jsonResponse.getJSONArray("choices");
+                            String result = choicesArray.getJSONObject(0).getJSONObject("message").getString("content");
+                            AddRespond(result.trim());
+                        } else {
+                            AddRespond("Empty response body from API");
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 } finally {
-                    if (response.body() != null) {
-                        response.body().close();
-                    }
+                    response.close();
                 }
             }
         });
